@@ -2,7 +2,7 @@
 
 Searching means to find whether a particular value is present in an array or not. If the value is present in the array, then searching is said to be successful and the searching process gives the location of that value in the array. However, if the value is not present in the array, the searching process displays an appropriate message and in this case searching is said to be unsuccessful. There are two popular methods of searching the array elements: *linear search* and *binary search*. The algorithm that should be used depends entirely on how the values are organized in the array.
 
-# Linear Search
+# [Linear Search](/Linear/Static/Array/05_Searching/Linear%20Search/)
 
 Linear search, also called as *sequential search*, is a very simple method used for searching an array for a particular value. It works by comparing the value to be searched with the every element of the array one by 1 in a sequence until a match is found. Linear search is mostly used to search an unordered list of elements (array in which data elements are not sorted).
 
@@ -43,10 +43,10 @@ Search executes in O(n) time where n is the number of elements in the array. Obv
 | Case | Time Complexity | Reasoning |
 |---|---|---|
 | Best Case | O(1) | Target is the first element, only 1 comparison needed. |
-| Average Case | O(n) | On average, the target will be in the middle, requiring ~n/2 comparisons → O(n). |
+| Average Case | O(n) | On average, the target will be in the middle, requiring ~n/2 comparisons &rarr; O(n). |
 | Worst Case | O(n) | Target is the last element or not present, requiring n comparisons. |
 
-# Binary Search
+# [Binary Search](/Linear/Static/Array/05_Searching/Binary%20Search/)
 
 Binary search is a searching algorithm that works efficiently with a sorted list. The mechanism of binary search can be better understood by an analogy of a telephone directory. When we are searching for a particular name in a directory, we first open the directory from the middle and then decide whether to look the name in the first part of the directory or in the second part of the directory. Again, we open some page in the middle and the whole process is repeated until we finally find the right name. Take another analogy. How do we find words in a dictionary? We first open the dictionary somewhere in the middle. Then we compare the first word on the page with the desired word whose meaning we are looking for. If the desired world comes before the word on the page, we look in the first half of the dictionary, else we look in the second half. Again, we open a page in the first half of the dictionary and compare the first word on that page with the desired word and repeat the same procedure until we finally get the word. The same mechanism is applied in the binary search.
 
