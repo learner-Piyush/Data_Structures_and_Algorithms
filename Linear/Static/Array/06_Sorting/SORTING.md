@@ -157,3 +157,181 @@ Selection sort is a sorting algorithm that is independent of the original order 
 | Best Case | O(n<sup>2</sup>) | Always scans the unsorted portion to find the minimum, even if sorted &rarr; O(n<sup>2</sup>). |
 | Average Case | O(n<sup>2</sup>) | Same process regardless of order &rarr; O(n<sup>2</sup>). |
 | Worst Case | O(n<sup>2</sup>) | Still scans the entire array for each selection &rarr; O(n<sup>2</sup>). |
+
+# [Merge Sort](/Linear/Static/Array/06_Sorting/Merge%20Sort/)
+
+Merge sort is a sorting algorithm that uses the divide, conquer, and combine algorithmic paradigm.
+
+**Divide** means partitioning the n-element array to be sorted into two sub-arrays of n/2 elements. If `A` is an array containing zero or one element, then it is already sorted. However, if there are more elements in the array, divide `A` into two sub-arrays, `A1` and `A2`, each containing about half of the elements of `A`.
+
+**Conquer** means sorting the two sub-arrays recursively using merge sort.
+
+**Combine** means merging the two sorted sub-arrays of size n/2 to produce the sorted array of n
+elements.
+
+Merge sort algorithm focuses on two main concepts to improve its performance (running time):
+- A smaller list takes fewer steps and thus less time to sort than a large list.
+- As number of steps is relatively less, thus less time is needed to create a sorted list from two sorted lists rather than creating it using two unsorted lists.
+
+The merge sort algorithm uses a function merge which combines the sub-arrays to form a sorted array. While the merge sort algorithm recursively divides the list into smaller lists, the merge algorithm conquers the list to sort the elements in individual lists. Finally, the smaller lists are merged to form one list. 
+
+## Technique
+
+The basic steps of a merge sort algorithm are as follows:
+- If the array is of length 0 or 1, then it is already sorted.
+- Otherwise, divide the unsorted array into two sub-arrays of about half the size.
+- Use merge sort algorithm recursively to sort each sub-array.
+- Merge the two sub-arrays to form a single sorted list.
+
+To understand the merge algorithm, consider the figure below which shows how we merge two lists to form one list. For ease of understanding, we have taken two sub-lists each containing four elements. The same concept can be utilized to merge four sub-lists containing two elements, or eight sub-lists having one element each.
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20250923102849301345/420046649.webp">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20250923102849111197/420046650.webp">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20250923102848872960/420046651.webp">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20250923102849544932/420046652.webp">
+
+**Algorithm for merge sort**
+```
+MERGE (ARR, BEG, MID, END)
+
+Step 1: [INITIALIZE] SET I = BEG, J = MID + 1, INDEX = 0
+Step 2: Repeat while (I <= MID) AND (J <= END)
+            IF ARR[I] < ARR[J]
+                SET TEMP[INDEX] = ARR[I]
+                SETI = I + 1
+            ELSE
+                SET TEMP[INDEX] = ARR[J]
+                SETJ = J + 1
+            [END OF IF]
+            SET INDEX = INDEX + 1
+        [END OF LOOP]
+Step 3: [Copy the remaining elements of right sub-array, if any]
+            IF I > MID
+                Repeat while J <= END
+                    SET TEMP[INDEX] = ARR[J]
+                    SET INDEX = INDEX + 1, SET J = J + 1
+                [END OF LOOP]
+        [Copy the remaining elements of left sub-array, if any]
+            ELSE
+                Repeat while I <= MID
+                    SET TEMP[INDEX] = ARR[I]
+                    SET INDEX = INDEX + 1, SET I = I + 1
+                [END OF LOOP]
+            [END OF IF]
+Step 4: [Copy the contents of TEMP back to ARR] SET K = 0
+Step 5: Repeat while K < INDEX
+            SET ARR[K] = TEMP[K]
+            SET K = K + 1
+        [END OF LOOP]
+Step 6: END
+```
+```
+MERGE_SORT(ARR, BEG, END)
+
+Step 1: IF BEG < END
+            SET MID = (BEG + END)/2
+            CALL MERGE_SORT (ARR, BEG, MID)
+            CALL MERGE_SORT (ARR, MID+1, END)
+            MERGE (ARR, BEG, MID, END)
+        [END OF IF]
+Step 2: END
+```
+
+Compare `ARR[I]` and `ARR[J]`, the smaller of the two is placed in `TEMP` at the location specified by INDEX and subsequently the value `I` or `J` is incremented. When `I` is greater than `MID`, copy the remaining elements of the right sub-array in `TEMP`.
+
+## Complexity of Merge Sort
+
+The running time of merge sort in the average case and the worst case can be given as O(n log n). Although merge sort has an optimal time complexity, it needs an additional space of O(n) for the temporary array `TEMP`.
+
+| Case | Time Complexity | Reasoning |
+|---|---|---|
+| Best Case | O(n log n) | Always splits and merges evenly regardless of input. |
+| Average Case | O(n log n) | Balanced divisions lead to log n levels with n work each. |
+| Worst Case | O(n log n) | Performs the same steps for any input order. |
+
+# [Quick Sort](/Linear/Static/Array/06_Sorting/Quick%20Sort/)
+
+Quick sort is a widely used sorting algorithm developed by C. A. R. Hoare that makes O(n log n) comparisons in the average case to sort an array of n elements. However, in the worst case, it has a quadratic running time given as O(n<sup>2</sup>). Basically, the quick sort algorithm is faster than other O(n log n) algorithms, because its efficient implementation can minimize the probability of requiring quadratic time. Quick sort is also known as partition exchange sort. Like merge sort, this algorithm works by using a divide-and-conquer strategy to divide a single unsorted array into two smaller sub-arrays. The quick sort algorithm works as follows:
+1. Select an element pivot from the array elements.
+2. Rearrange the elements in the array in such a way that all elements that are less than the pivot appear before the pivot and all elements greater than the pivot element come after it (equal values can go either way). After such a partitioning, the pivot is placed in its final position. This is called the partition operation.
+3. Recursively sort the two sub-arrays thus obtained. (One with sub-list of values smaller than that of the pivot element and the other having higher value elements). Like merge sort, the base case of the recursion occurs when the array has zero or one element because in that case the array is already sorted. After each iteration, one element (pivot) is always in its final position. Hence, with every iteration, there is one less element to be sorted in the array. Thus, the main task is to find the pivot element, which will partition the array into two halves. To understand how we find the pivot element, follow the steps given below. (We take the first element in the array as pivot).
+
+## Technique
+
+Quick sort works as follows:
+1. Set the index of the first element in the array to `loc` and `left` variables. Also, set the index of the last element of the array to the right variable. That is, `loc` = 0, `left` = 0, and `right` = n – 1 (where n in the number of elements in the array)
+2. Start from the element pointed by right and scan the array from right to left, comparing each element on the way with the element pointed by the variable `loc`. That is, A[loc] should be less than A[right].
+    <ol type="a">
+        <li>If that is the case, then simply continue comparing until right becomes equal to loc. Once `right` = `loc`, it means the pivot has been placed in its correct position.</li>
+        <li>However, if at any point, we have A[loc] > A[right], then interchange the two values and jump to Step 3.</li>
+        <li>Set `loc` = `right`</li>
+    </ol>
+3. Start from the element pointed by `left` and scan the array from left to right, comparing each element on the way with the element pointed by `loc`. That is, A[loc] should be greater than A[left].
+    <ol type="a">
+        <li>If that is the case, then simply continue comparing until left becomes equal to loc. Once `left` = `loc`, it means the pivot has been placed in its correct position.</li>
+        <li>However, if at any point, we have A[loc] < A[left], then interchange the two values and jump to Step 2.</li>
+        <li>Set `loc` = `left`.</li>
+    </ol>
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20241111171208918304/quick-sort-1.webp">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20241111171209045220/quick-sort-2.webp">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20241220154252629076/quick-sort-3-1.png">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20241111171209255614/quick-sort-4.webp">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20241213175652062597/quick-sort.png">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20241111171209465155/quick-sort-6.webp">
+
+**Algorithm for quick sort**
+```
+PARTITION (ARR, BEG, END, LOC)
+
+Step 1: [INITIALIZE] SET LEFT = BEG, RIGHT = END, LOC = BEG, FLAG = 0
+Step 2: Repeat Steps 3 to 6 while FLAG = 0
+Step 3:     Repeat while ARR[LOC] <= ARR[RIGHT] AND LOC != RIGHT
+                SET RIGHT = RIGHT-1
+            [END OF LOOP]
+Step 4:     IF LOC = RIGHT
+                SET FLAG=1
+            ELSE IF ARR[LOC] > ARR[RIGHT]
+                SWAP ARR[LOC] with ARR[RIGHT]
+                SET LOC = RIGHT
+            [END OF IF]
+Step 5:     IF FLAG = 0
+                Repeat while ARR[LOC] >= ARR[LEFT] AND LOC != LEFT
+                    SET LEFT = LEFT+1
+                [END OF LOOP]
+Step 6:         IF LOC = LEFT
+                    SET FLAG = 1
+                ELSE IF ARR[LOC] < ARR[LEFT]
+                    SWAP ARR[LOC] with ARR[LEFT]
+                    SET LOC = LEFT
+                [END OF IF]
+            [END OF IF]
+Step 7: [END OF LOOP]
+Step 8: END
+```
+```
+QUICK_SORT (ARR, BEG, END)
+
+Step 1: IF (BEG < END)
+            CALL PARTITION (ARR, BEG, END, LOC)
+            CALL QUICKSORT(ARR, BEG, LOC-1)
+            CALL QUICKSORT(ARR, LOC+1, END)
+        [END OF IF]
+Step 2: END
+```
+
+## Complexity of Quick Sort
+
+In the average case, the running time of quick sort can be given as O(n log n). The partitioning of the array which simply loops over the elements of the array once uses O(n) time.
+
+In the best case, every time we partition the array, we divide the list into two nearly equal pieces. That is, the recursive call processes the sub-array of half the size. At the most, only log n nested calls can be made before we reach a sub-array of size 1. It means the depth of the call tree is O(log n). And because at each level, there can only be O(n), the resultant time is given as O(n log n) time.
+
+Practically, the efficiency of quick sort depends on the element which is chosen as the pivot. Its worst-case efficiency is given as O(n<sup>2</sup>). The worst case occurs when the array is already sorted (either in ascending or descending order) and the left-most element is chosen as the pivot.
+
+However, many implementations randomly choose the pivot element. The randomized version of the quick sort algorithm always has an algorithmic complexity of O(n log n).
+
+| Case | Time Complexity | Reasoning |
+|---|---|---|
+| Best Case | O(n log n) | Pivot splits array evenly at each step. |
+| Average Case | O(n log n) | Pivots generally divide data fairly evenly. |
+| Worst Case | O(n<sup>2</sup>) | Pivot choices create unbalanced partitions (e.g., sorted input). |
